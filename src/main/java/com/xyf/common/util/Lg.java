@@ -19,12 +19,44 @@ public class Lg {
         return LOGGER_MAP.get(tag);
     }
 
-    public static void i(@Nonnull String tag, @Nonnull String message) {
-        getLogger(tag).info(message);
+    private static final int LOG_LENGTH = 100;
+
+    private static void logMethodHead(@Nonnull String tag) {
+        final StackTraceElement element = new Throwable().getStackTrace()[2];
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("-------------");
+        builder.append(element.getMethodName());
+        final int length = builder.length();
+        for (int i = 0; i < LOG_LENGTH - length; i++) {
+            builder.append("-");
+        }
+
+        getLogger(tag).info(builder.toString());
     }
 
-    public static void e(@Nonnull String tag, @Nonnull String message, @Nonnull Throwable e) {
-        getLogger(tag).error(message, e);
+    private static void logMethodTail(@Nonnull String tag) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < LOG_LENGTH; i++) {
+            builder.append("-");
+        }
+        getLogger(tag).info(builder.toString());
+    }
+
+    public static void i(@Nonnull String tag, @Nonnull Object... messages) {
+        logMethodHead(tag);
+        for (Object message : messages) {
+            getLogger(tag).info("| " + message);
+        }
+        logMethodTail(tag);
+    }
+
+    public static void e(@Nonnull String tag, @Nonnull Object... messages) {
+        logMethodHead(tag);
+        for (Object message : messages) {
+            getLogger(tag).error("| " + message);
+        }
+        logMethodTail(tag);
     }
 
 }
