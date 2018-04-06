@@ -46,7 +46,10 @@ public class Lg {
     public static void i(@Nonnull String tag, @Nonnull Object... messages) {
         logMethodHead(tag);
         for (Object message : messages) {
-            getLogger(tag).info("| " + message);
+            final String string = message.toString();
+            for (String s : string.split("\n")) {
+                getLogger(tag).info("| " + s);
+            }
         }
         logMethodTail(tag);
     }
@@ -54,7 +57,10 @@ public class Lg {
     public static void e(@Nonnull String tag, @Nonnull Object... messages) {
         logMethodHead(tag);
         for (Object message : messages) {
-            getLogger(tag).error("| " + message);
+            final String string = message.toString();
+            for (String s : string.split("\n")) {
+                getLogger(tag).error("| " + s);
+            }
         }
         logMethodTail(tag);
     }
