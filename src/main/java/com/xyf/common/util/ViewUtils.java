@@ -49,7 +49,7 @@ public class ViewUtils {
 
     @Nullable
     public static File openImageFile(@Nonnull String title) {
-        return openFile(title, "图片文件( *.png)( *.jpg)", " *.jpg ", " *.png");
+        return openFile(title, "图片文件( *.png)( *.jpg)", " *.jpg", " *.png");
     }
 
     @Nullable

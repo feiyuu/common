@@ -9,4 +9,5 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.google.guava', name: 'guava', version: '24.1-jre'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
 }
