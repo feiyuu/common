@@ -9,7 +9,8 @@ import java.util.List;
 
 public class ImageUtils {
 
-    public static final List<String> IMAGE_SUFFIX = Arrays.asList(".png", ".jpg");
+    public static final String PNG_SUFFIX = ".png";
+    public static final List<String> IMAGE_SUFFIX = Arrays.asList(PNG_SUFFIX, ".jpg");
 
     public static boolean isImage(@Nonnull File file) {
         return FileUtils2.isFile(file) && isImage(file.getName());
@@ -26,7 +27,7 @@ public class ImageUtils {
     }
 
     public static boolean isPng(@Nonnull String name) {
-        return name.endsWith(".png");
+        return name.endsWith(PNG_SUFFIX);
     }
 
     public static boolean isPng(@Nonnull File name) {
