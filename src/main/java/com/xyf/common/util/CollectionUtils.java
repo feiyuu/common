@@ -6,8 +6,8 @@ import java.util.List;
 public class CollectionUtils {
 
     public static boolean isEmpty(@Nullable List<?> list) {
-        return list == null || list.size() == 0;
-    }
+        return list == null || list.isEmpty();
+}
 
     public static boolean isEmpty(@Nullable Object[] directoryList) {
         return directoryList == null || directoryList.length == 0;
