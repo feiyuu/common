@@ -21,48 +21,66 @@ public class Lg {
 
     private static final int LOG_LENGTH = 100;
 
-    private static void logMethodHead(@Nonnull String tag) {
+    private static void logMethodHead(@Nonnull TYPE type, @Nonnull String tag) {
         final StackTraceElement element = new Throwable().getStackTrace()[2];
 
         StringBuilder builder = new StringBuilder();
         builder.append("-------------");
-        builder.append(element.getMethodName());
+        builder.append(String.format("%s(%s:%d)", element.getMethodName(), element.getFileName(), element.getLineNumber()));
         final int length = builder.length();
         for (int i = 0; i < LOG_LENGTH - length; i++) {
             builder.append("-");
         }
 
-        getLogger(tag).info(builder.toString());
+        switch (type) {
+            case ERROR:
+                getLogger(tag).error(builder.toString());
+                break;
+            default:
+                getLogger(tag).info(builder.toString());
+                break;
+        }
     }
 
-    private static void logMethodTail(@Nonnull String tag) {
+    private enum TYPE {
+        INFO, ERROR
+    }
+
+    private static void logMethodTail(@Nonnull TYPE type, @Nonnull String tag) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < LOG_LENGTH; i++) {
             builder.append("-");
         }
-        getLogger(tag).info(builder.toString());
+        switch (type) {
+            case ERROR:
+                getLogger(tag).error(builder.toString());
+                break;
+            default:
+                getLogger(tag).info(builder.toString());
+                break;
+        }
     }
 
     public static void i(@Nonnull String tag, @Nonnull Object... messages) {
-        logMethodHead(tag);
+        logMethodHead(TYPE.INFO, tag);
         for (Object message : messages) {
             final String string = message.toString();
             for (String s : string.split("\n")) {
                 getLogger(tag).info("| " + s);
             }
         }
-        logMethodTail(tag);
+        logMethodTail(TYPE.INFO, tag);
     }
 
     public static void e(@Nonnull String tag, @Nonnull Object... messages) {
-        logMethodHead(tag);
+        logMethodHead(TYPE.ERROR, tag);
         for (Object message : messages) {
             final String string = message.toString();
             for (String s : string.split("\n")) {
                 getLogger(tag).error("| " + s);
             }
         }
-        logMethodTail(tag);
+        logMethodTail(TYPE.ERROR, tag);
     }
 
 }
