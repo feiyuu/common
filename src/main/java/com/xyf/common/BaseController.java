@@ -5,9 +5,7 @@ import io.reactivex.disposables.Disposable;
 import javafx.fxml.Initializable;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class BaseController implements Initializable {
@@ -15,11 +13,6 @@ public abstract class BaseController implements Initializable {
     @UiThread
     public void onStop() {
         clearDisposable();
-    }
-
-    @UiThread
-    protected void addDisposable(@Nonnull Disposable disposable) {
-        disposables.add(disposable);
     }
 
     @UiThread
@@ -36,19 +29,13 @@ public abstract class BaseController implements Initializable {
     }
 
     @UiThread
-    protected void clearDisposable() {
-        for (Disposable disposable : disposables) {
-            disposable.dispose();
-        }
-        disposables.clear();
-
+    private void clearDisposable() {
         for (Disposable disposable : disposableMap.values()) {
             disposable.dispose();
         }
         disposableMap.clear();
     }
 
-    private List<Disposable> disposables = new ArrayList<>();
-    private Map<String, Disposable> disposableMap = new HashMap<>();
+    private final Map<String, Disposable> disposableMap = new HashMap<>();
 
 }

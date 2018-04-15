@@ -1,5 +1,7 @@
 package com.xyf.common.util;
 
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -11,7 +13,7 @@ import java.io.File;
 public class ViewUtils {
 
     private static Window window;
-    private static Sp sp = new Sp(ViewUtils.class);
+    private static final Sp sp = new Sp(ViewUtils.class);
 
     public static void init(@Nonnull Window window) {
         ViewUtils.window = window;
@@ -71,6 +73,13 @@ public class ViewUtils {
         }
 
         return file;
+    }
+
+    public static void copyToClipboard(@Nonnull String string) {
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent cc = new ClipboardContent();
+        cc.putString(string);
+        clipboard.setContent(cc);
     }
 
 }

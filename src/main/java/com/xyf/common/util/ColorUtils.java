@@ -30,7 +30,6 @@ public class ColorUtils {
     @Nonnull
     public static String parseColorPressed(@Nonnull String androidColor) {
         Preconditions.checkArgument(isColorString(androidColor));
-        final String a = androidColor.substring(1, 3);
         final String r = androidColor.substring(3, 5);
         final String g = androidColor.substring(5, 7);
         final String b = androidColor.substring(7, 9);
