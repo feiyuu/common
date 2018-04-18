@@ -1,5 +1,7 @@
 package com.xyf.common.util;
 
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,8 +75,44 @@ public class Lg {
             for (String s : string.split("\n")) {
                 getLogger(tag).info("| " + s);
             }
+            if (message instanceof Throwable) {
+                Throwable throwable = (Throwable) message;
+                StackTraceElement[] elements = throwable.getStackTrace();
+                for (StackTraceElement element : elements) {
+                    getLogger(tag).info("| " + element);
+                }
+            }
         }
         logMethodTail(TYPE.INFO, tag);
+    }
+
+    private static void log(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object... messages) {
+        logMethodHead(type, tag);
+        for (Object message : messages) {
+            for (String s : message.toString().split("\n")) {
+                logLine(type, tag, s);
+            }
+            if (message instanceof Throwable) {
+                Throwable throwable = (Throwable) message;
+                StackTraceElement[] elements = throwable.getStackTrace();
+                for (StackTraceElement element : elements) {
+                    logLine(type, tag, element);
+                }
+            }
+        }
+        logMethodTail(type, tag);
+    }
+
+    private static void logLine(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object message) {
+        final String line = "| " + message;
+        switch (type) {
+            case ERROR:
+                getLogger(tag).error(line);
+                break;
+            default:
+                getLogger(tag).info(line);
+                break;
+        }
     }
 
     public static void e(@Nonnull String tag, @Nonnull Object... messages) {
@@ -83,6 +121,13 @@ public class Lg {
             final String string = message.toString();
             for (String s : string.split("\n")) {
                 getLogger(tag).error("| " + s);
+            }
+            if (message instanceof Throwable) {
+                Throwable throwable = (Throwable) message;
+                StackTraceElement[] elements = throwable.getStackTrace();
+                for (StackTraceElement element : elements) {
+                    getLogger(tag).info("| " + element);
+                }
             }
         }
         logMethodTail(TYPE.ERROR, tag);
