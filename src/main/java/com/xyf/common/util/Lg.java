@@ -1,6 +1,5 @@
 package com.xyf.common.util;
 
-import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class Lg {
     private static final int LOG_LENGTH = 100;
 
     private static void logMethodHead(@Nonnull TYPE type, @Nonnull String tag) {
-        final StackTraceElement element = new Throwable().getStackTrace()[2];
+        final StackTraceElement element = new Throwable().getStackTrace()[3];
 
         StringBuilder builder = new StringBuilder();
         builder.append("-------------");
@@ -69,21 +68,7 @@ public class Lg {
     }
 
     public static void i(@Nonnull String tag, @Nonnull Object... messages) {
-        logMethodHead(TYPE.INFO, tag);
-        for (Object message : messages) {
-            final String string = message.toString();
-            for (String s : string.split("\n")) {
-                getLogger(tag).info("| " + s);
-            }
-            if (message instanceof Throwable) {
-                Throwable throwable = (Throwable) message;
-                StackTraceElement[] elements = throwable.getStackTrace();
-                for (StackTraceElement element : elements) {
-                    getLogger(tag).info("| " + element);
-                }
-            }
-        }
-        logMethodTail(TYPE.INFO, tag);
+        log(TYPE.INFO, tag, messages);
     }
 
     private static void log(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object... messages) {
@@ -116,21 +101,7 @@ public class Lg {
     }
 
     public static void e(@Nonnull String tag, @Nonnull Object... messages) {
-        logMethodHead(TYPE.ERROR, tag);
-        for (Object message : messages) {
-            final String string = message.toString();
-            for (String s : string.split("\n")) {
-                getLogger(tag).error("| " + s);
-            }
-            if (message instanceof Throwable) {
-                Throwable throwable = (Throwable) message;
-                StackTraceElement[] elements = throwable.getStackTrace();
-                for (StackTraceElement element : elements) {
-                    getLogger(tag).info("| " + element);
-                }
-            }
-        }
-        logMethodTail(TYPE.ERROR, tag);
+        log(TYPE.ERROR, tag, messages);
     }
 
 }
