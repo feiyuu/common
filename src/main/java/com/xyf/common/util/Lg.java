@@ -71,14 +71,14 @@ public class Lg {
         log(TYPE.INFO, tag, messages);
     }
 
-    private static void log(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object... messages) {
+    private static void log(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object... objects) {
         logMethodHead(type, tag);
-        for (Object message : messages) {
-            for (String s : message.toString().split("\n")) {
+        for (Object obj : objects) {
+            for (String s : obj.toString().split("\n")) {
                 logLine(type, tag, s);
             }
-            if (message instanceof Throwable) {
-                Throwable throwable = (Throwable) message;
+            if (obj instanceof Throwable) {
+                Throwable throwable = (Throwable) obj;
                 StackTraceElement[] elements = throwable.getStackTrace();
                 for (StackTraceElement element : elements) {
                     logLine(type, tag, element);
