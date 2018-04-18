@@ -138,7 +138,7 @@ public class FileObserverHelper {
                                         Disposable disposable = Observable.just(new Object())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(JavaFxScheduler.platform())
-                                                .subscribe(o -> holder.refreshable.refresh());
+                                                .subscribe(o -> holder.refreshable.postRefresh());
                                     }
                                 }
                             }
@@ -148,7 +148,7 @@ public class FileObserverHelper {
                                     Disposable disposable = Observable.just(new Object())
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(JavaFxScheduler.platform())
-                                            .subscribe(o -> holder.refreshable.refresh());
+                                            .subscribe(o -> holder.refreshable.postRefresh());
                                 }
                             }
                         }
