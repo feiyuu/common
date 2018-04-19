@@ -20,7 +20,7 @@ public class Lg {
         return LOGGER_MAP.get(tag);
     }
 
-    private static final String BORDER = "----------------------------------------------------------------------------------------------------------------------------------";
+    private static final String BORDER = "----------------------------------------------------------------------------------------------";
 
     private static void logMethodHead(@Nonnull TYPE type, @Nonnull String tag) {
         logBorder(type, tag);
@@ -55,6 +55,10 @@ public class Lg {
 
     private static void log(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object... objects) {
         logMethodHead(type, tag);
+        if (CollectionUtils.isEmpty(objects)) {
+            return;
+        }
+
         for (Object obj : objects) {
             for (String s : obj.toString().split("\n")) {
                 logLine(type, tag, s);
