@@ -20,27 +20,13 @@ public class Lg {
         return LOGGER_MAP.get(tag);
     }
 
-    private static final int LOG_LENGTH = 100;
+    private static final String BORDER = "----------------------------------------------------------------------------------------------------------------------------------";
 
     private static void logMethodHead(@Nonnull TYPE type, @Nonnull String tag) {
+        logBorder(type, tag);
         final StackTraceElement element = new Throwable().getStackTrace()[3];
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("-------------");
-        builder.append(String.format("%s(%s:%d)", element.getMethodName(), element.getFileName(), element.getLineNumber()));
-        final int length = builder.length();
-        for (int i = 0; i < LOG_LENGTH - length; i++) {
-            builder.append("-");
-        }
-
-        switch (type) {
-            case ERROR:
-                getLogger(tag).error(builder.toString());
-                break;
-            default:
-                getLogger(tag).info(builder.toString());
-                break;
-        }
+        logLine(type, tag, String.format("%s(%s:%d)", element.getMethodName(), element.getFileName(), element.getLineNumber()));
+        logBorder(type, tag);
     }
 
     public static String getMethodTag() {
@@ -53,16 +39,12 @@ public class Lg {
     }
 
     private static void logMethodTail(@Nonnull TYPE type, @Nonnull String tag) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < LOG_LENGTH; i++) {
-            builder.append("-");
-        }
         switch (type) {
             case ERROR:
-                getLogger(tag).error(builder.toString());
+                getLogger(tag).error(BORDER);
                 break;
             default:
-                getLogger(tag).info(builder.toString());
+                getLogger(tag).info(BORDER);
                 break;
         }
     }
@@ -96,6 +78,17 @@ public class Lg {
                 break;
             default:
                 getLogger(tag).info(line);
+                break;
+        }
+    }
+
+    private static void logBorder(@NonNull TYPE type, @Nonnull String tag) {
+        switch (type) {
+            case ERROR:
+                getLogger(tag).error(BORDER);
+                break;
+            default:
+                getLogger(tag).info(BORDER);
                 break;
         }
     }
