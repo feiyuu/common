@@ -29,11 +29,6 @@ public class Lg {
         logBorder(type, tag);
     }
 
-    public static String getMethodTag() {
-        final StackTraceElement element = new Throwable().getStackTrace()[1];
-        return String.format("%s(%d)", element.getMethodName(), element.getLineNumber());
-    }
-
     private enum TYPE {
         INFO, ERROR
     }
