@@ -22,18 +22,18 @@ public class Lg {
     }
 
     private static final int METHOD_BORDER_LENGTH = 100;
-    private static final String METHOD_HEAD____;
+    private static final String METHOD_HEAD;
     private static final String METHOD_SEPARATE;
-    private static final String MESSAGE_TAIL___;
+    private static final String MESSAGE_TAIL;
 
     static {
-        METHOD_HEAD____ = "┌" + Strings.repeat("─", METHOD_BORDER_LENGTH) + "┐";
+        METHOD_HEAD = "┌" + Strings.repeat("─", METHOD_BORDER_LENGTH) + "┐";
         METHOD_SEPARATE = "│" + Strings.repeat("-", METHOD_BORDER_LENGTH) + "│";
-        MESSAGE_TAIL___ = "└" + Strings.repeat("─", METHOD_BORDER_LENGTH) + "┘";
+        MESSAGE_TAIL = "└" + Strings.repeat("─", METHOD_BORDER_LENGTH) + "┘";
     }
 
     private static void logMethodHead(@Nonnull TYPE type, @Nonnull String tag) {
-        logBorder(type, tag, METHOD_HEAD____);
+        logBorder(type, tag, METHOD_HEAD);
         final StackTraceElement element = new Throwable().getStackTrace()[3];
         logLine(type, tag, String.format("%s(%s:%d)", element.getMethodName(), element.getFileName(), element.getLineNumber()));
         logBorder(type, tag, METHOD_SEPARATE);
@@ -46,10 +46,10 @@ public class Lg {
     private static void logMethodTail(@Nonnull TYPE type, @Nonnull String tag) {
         switch (type) {
             case ERROR:
-                getLogger(tag).error(MESSAGE_TAIL___);
+                getLogger(tag).error(MESSAGE_TAIL);
                 break;
             default:
-                getLogger(tag).info(MESSAGE_TAIL___);
+                getLogger(tag).info(MESSAGE_TAIL);
                 break;
         }
     }
