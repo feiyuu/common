@@ -1,5 +1,6 @@
 package com.xyf.common.util;
 
+import com.google.common.base.Strings;
 import io.reactivex.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +21,22 @@ public class Lg {
         return LOGGER_MAP.get(tag);
     }
 
-    private static final String BORDER = "----------------------------------------------------------------------------------------------";
+    private static final int METHOD_BORDER_LENGTH = 100;
+    private static final String METHOD_HEAD____;
+    private static final String METHOD_SEPARATE;
+    private static final String MESSAGE_TAIL___;
+
+    static {
+        METHOD_HEAD____ = "┌" + Strings.repeat("─", METHOD_BORDER_LENGTH) + "┐";
+        METHOD_SEPARATE = "│" + Strings.repeat("-", METHOD_BORDER_LENGTH) + "│";
+        MESSAGE_TAIL___ = "└" + Strings.repeat("─", METHOD_BORDER_LENGTH) + "┘";
+    }
 
     private static void logMethodHead(@Nonnull TYPE type, @Nonnull String tag) {
-        logBorder(type, tag);
+        logBorder(type, tag, METHOD_HEAD____);
         final StackTraceElement element = new Throwable().getStackTrace()[3];
         logLine(type, tag, String.format("%s(%s:%d)", element.getMethodName(), element.getFileName(), element.getLineNumber()));
-        logBorder(type, tag);
+        logBorder(type, tag, METHOD_SEPARATE);
     }
 
     private enum TYPE {
@@ -36,10 +46,10 @@ public class Lg {
     private static void logMethodTail(@Nonnull TYPE type, @Nonnull String tag) {
         switch (type) {
             case ERROR:
-                getLogger(tag).error(BORDER);
+                getLogger(tag).error(MESSAGE_TAIL___);
                 break;
             default:
-                getLogger(tag).info(BORDER);
+                getLogger(tag).info(MESSAGE_TAIL___);
                 break;
         }
     }
@@ -50,10 +60,6 @@ public class Lg {
 
     private static void log(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object... objects) {
         logMethodHead(type, tag);
-        if (CollectionUtils.isEmpty(objects)) {
-            return;
-        }
-
         for (Object obj : objects) {
             for (String s : obj.toString().split("\n")) {
                 logLine(type, tag, s);
@@ -70,7 +76,7 @@ public class Lg {
     }
 
     private static void logLine(@NonNull TYPE type, @Nonnull String tag, @Nonnull Object message) {
-        final String line = "| " + message;
+        final String line = String.format("│%-" + METHOD_BORDER_LENGTH + "s│", message.toString());
         switch (type) {
             case ERROR:
                 getLogger(tag).error(line);
@@ -81,13 +87,13 @@ public class Lg {
         }
     }
 
-    private static void logBorder(@NonNull TYPE type, @Nonnull String tag) {
+    private static void logBorder(@NonNull TYPE type, @Nonnull String tag, @Nonnull String border) {
         switch (type) {
             case ERROR:
-                getLogger(tag).error(BORDER);
+                getLogger(tag).error(border);
                 break;
             default:
-                getLogger(tag).info(BORDER);
+                getLogger(tag).info(border);
                 break;
         }
     }

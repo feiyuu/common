@@ -5,6 +5,6 @@ import com.xyf.common.annotation.UiThread;
 public interface Refreshable {
 
     @UiThread
-    void postRefresh();
+    void refresh();
 
 }

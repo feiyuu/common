@@ -79,7 +79,7 @@ public class FileObserverHelper {
 
         Disposable disposable = Observable.fromCallable(() -> {
             ensureInit();
-            Preconditions.checkArgument(FileUtils2.isDirectory(directory));
+            Preconditions.checkArgument(FileUtils2.isDirectory(directory), directory);
 
             WatchKey watchKey = directory.toPath().register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_MODIFY, StandardWatchEventKinds.ENTRY_DELETE);
             Lg.i(TAG, "start watch directory", directory);
@@ -138,7 +138,7 @@ public class FileObserverHelper {
                                         Disposable disposable = Observable.just(new Object())
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(JavaFxScheduler.platform())
-                                                .subscribe(o -> holder.refreshable.postRefresh());
+                                                .subscribe(o -> holder.refreshable.refresh());
                                     }
                                 }
                             }
@@ -148,7 +148,7 @@ public class FileObserverHelper {
                                     Disposable disposable = Observable.just(new Object())
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(JavaFxScheduler.platform())
-                                            .subscribe(o -> holder.refreshable.postRefresh());
+                                            .subscribe(o -> holder.refreshable.refresh());
                                 }
                             }
                         }
