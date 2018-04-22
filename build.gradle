@@ -12,4 +12,5 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.1.12'
     compile group: 'io.reactivex.rxjava2', name: 'rxjavafx', version: '2.2.2'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
 }

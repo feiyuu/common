@@ -5,6 +5,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -62,14 +63,23 @@ public class ViewUtils {
     @Nullable
     public static File saveFile(@Nonnull String title, @Nonnull String extensionsDescription, @Nonnull String... extensions) {
         final String KEY_LAST_SAVE_DIRECTORY = "last_save_file_directory";
+        final String KEY_LAST_SAVE_NAME = "last_save_file_name";
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(extensionsDescription, extensions));
         final File laseSaveDirectory = new File(sp.get(KEY_LAST_SAVE_DIRECTORY, ""));
-        fileChooser.setInitialDirectory(FileUtils2.isDirectory(laseSaveDirectory) ? laseSaveDirectory : null);
+        if (FileUtils2.isDirectory(laseSaveDirectory)) {
+            fileChooser.setInitialDirectory(laseSaveDirectory);
+        }
+
+        final String laseSaveName = sp.get(KEY_LAST_SAVE_NAME, "");
+        if (!StringUtils.isEmpty(laseSaveName)) {
+            fileChooser.setInitialFileName(laseSaveName);
+        }
         File file = fileChooser.showSaveDialog(window);
         if (file != null) {
             sp.set(KEY_LAST_SAVE_DIRECTORY, file.getParentFile().getAbsolutePath());
+            sp.set(KEY_LAST_SAVE_NAME, file.getName());
         }
 
         return file;
