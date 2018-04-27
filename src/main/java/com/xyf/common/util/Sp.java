@@ -3,7 +3,7 @@ package com.xyf.common.util;
 import javax.annotation.Nonnull;
 import java.util.prefs.Preferences;
 
-class Sp {
+public class Sp {
 
     @Nonnull
     private final Preferences sp;
