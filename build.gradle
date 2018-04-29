@@ -4,7 +4,6 @@ apply plugin: 'maven'
 group = 'com.github.bajingxiaozi'
 
 sourceCompatibility = 1.9
-targetCompatibility = 1.9
 
 repositories {
     mavenCentral()
