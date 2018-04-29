@@ -1,6 +1,7 @@
 package com.xyf.common.util;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.prefs.Preferences;
 
 public class Sp {
@@ -16,6 +17,7 @@ public class Sp {
         sp.put(key, value);
     }
 
+    @Nullable
     public String get(@Nonnull String key, @Nonnull String def) {
         return sp.get(key, def);
     }
